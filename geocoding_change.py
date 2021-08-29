@@ -8,31 +8,38 @@ import openpyxl
 # get googlemaps geocoding API key
 gmaps = googlemaps.Client(key='AIzaSyB8OVEKyCF0Ntu6Mew-piV-P_-zmTzexe0')
 
-# get file
-file_name = 'test.xlsx'
-# load excel file
-wb = openpyxl.load_workbook(file_name)
 
-ws = wb.active
-# for end of the address' cells, get the lat and lng
+def change_MGRS(file_name):
+    print('this function is started')
+    # get file
+    # load excel file
+    file_name = file_name.replace('.xlsx', '')
+    file_name = file_name + '.xlsx'
 
-for x in range(2, ws.max_row + 1):
+    wb = openpyxl.load_workbook(file_name)
 
-    print(ws.cell(x, 1).value)
+    ws = wb.active
+    # for end of the address' cells, get the lat and lng
 
-    address = ws.cell(x, 1).value
+    for x in range(2, ws.max_row + 1):
 
-    geocode_result = gmaps.geocode(address)
+        print(ws.cell(x, 1).value)
 
-    # if the json has no value, just get next cell
-    if geocode_result != []:
-        # put the lat and lng at the excel file
-        ws.cell(x, 2).value = geocode_result[0]['geometry']['location']['lng']
-        ws.cell(x, 3).value = geocode_result[0]['geometry']['location']['lat']
+        address = ws.cell(x, 1).value
 
-        # change lat and lng to MGRS and put the value at the MGRS columns
-        lat = ws.cell(x, 3).value
-        lng = ws.cell(x, 2).value
+        geocode_result = gmaps.geocode(address)
+
+        # if the json has no value, just get next cell
+        if geocode_result != []:
+            # put the lat and lng at the excel file
+            ws.cell(
+                x, 2).value = geocode_result[0]['geometry']['location']['lng']
+            ws.cell(
+                x, 3).value = geocode_result[0]['geometry']['location']['lat']
+
+            # change lat and lng to MGRS and put the value at the MGRS columns
+            lat = ws.cell(x, 3).value
+            lng = ws.cell(x, 2).value
 
         m = mgrs.MGRS()
 
@@ -41,11 +48,5 @@ for x in range(2, ws.max_row + 1):
 
         ws.cell(x, 4).value = c
 
-
-wb.save(file_name)
-wb.close()
-
-'''
-geocode_result_2 = gmaps.geocode('사동 29')
-pprint.pprint(geocode_result_2)
-'''
+    wb.save(filename)
+    wb.close()
