@@ -10,12 +10,15 @@ gmaps = googlemaps.Client(key='AIzaSyB8OVEKyCF0Ntu6Mew-piV-P_-zmTzexe0')
 
 
 def change_MGRS(file_name):
-    print('this function is started')
+    print('this funcion is started')
+    print(file_name)
+
+    file_name = str(file_name).replace('/', '\\')
+
+    print(file_name)
+
     # get file
     # load excel file
-    file_name = file_name.replace('.xlsx', '')
-    file_name = file_name + '.xlsx'
-
     wb = openpyxl.load_workbook(file_name)
 
     ws = wb.active
@@ -48,5 +51,5 @@ def change_MGRS(file_name):
 
         ws.cell(x, 4).value = c
 
-    wb.save(filename)
+    wb.save(file_name)
     wb.close()

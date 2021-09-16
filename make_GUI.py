@@ -20,10 +20,9 @@ btn_get_file.pack(side="top", fill="x")
 ent_file_name = Entry(root)
 ent_file_name.pack(fill="x")
 
-file_name = ent_file_name.get()
 
 btn_save_file = Button(root, padx=20, pady=20,
-                       text="파일 생성하기", command=change_MGRS(file_name))
+                       text="파일 생성하기", command=lambda: change_MGRS(ent_file_name.get()))
 btn_save_file.pack(side="top", fill="x")
 
 root.mainloop()
