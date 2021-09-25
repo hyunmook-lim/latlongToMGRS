@@ -5,7 +5,7 @@ from geocoding_change import *
 root = Tk()
 
 root.title("군사좌표 생성기")
-root.geometry("540x380")
+root.geometry("540x140")
 
 
 def get_file_path():
